@@ -1,0 +1,13 @@
+[book]
+title = "커먼 리스프 길잡이"
+description = "커먼 리스프 길잡이"
+language = "kr"
+multilingual = false
+src = "src"
+
+[output.html]
+no-section-label = true
+site-url = "/commonlisp-guide/"
+git-repository-url = "https://github.com/lispkorea/commonlisp-guide"
+git-repository-icon = "fa-github"
+edit-url-template = "https://github.com/lispkorea/commonlisp-guide/edit/main/{path}"
