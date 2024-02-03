@@ -5,6 +5,7 @@
 # 기초
 
 - [아톰](./basic/atom.md)
+- [Cons](./basic/cons.md)
 - [표현식](./basic/expression.md)
 - [심볼](./basic/symbol.md)
 - [주석](./basic/comment.md)
@@ -18,12 +19,14 @@
 - [데이터 타입](./basic/type/type.md)
   - [숫자](./basic/type/number.md)
   - [불리언](./basic/type/boolean.md)
+  - [문자](./basic/type/char.md)
   - [문자열](./basic/type/string.md)
   - [배열](./basic/type/array.md)
   - [벡터](./basic/type/vector.md)
   - [해시테이블](./basic/type/hashtable.md)
   - [구조체](./basic/type/structure.md)
 - [map](./basic/map.md)
+- [print](./basic/print.md)
 - [파일 입출력](./basic/file.md)
 - [바인드](./basic/bind.md)
 - [패키지](./basic/package.md)
