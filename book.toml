@@ -1,7 +1,7 @@
 [book]
 title = "커먼 리스프 길잡이"
-description = "커먼 리스프 길잡이"
-language = "kr"
+description = "Common Lisp에 대해 알아보자"
+language = "ko"
 multilingual = false
 src = "src"
 
