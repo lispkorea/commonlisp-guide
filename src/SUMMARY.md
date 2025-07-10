@@ -2,6 +2,11 @@
 
 - [들어가며](./Index.md)
 
+# 설치
+
+- [설치](./install/install.md)
+  - [SBCL](./install/sbcl.md)
+
 # 기초
 
 - [아톰](./basic/atom.md)
@@ -47,6 +52,7 @@
 # 박물관
 
 - [커먼리스프 역사](./museum/history.md)
+- [배포판](./museum/implementation.md)
 - [인물들](./museum/people/people.md)
   - [John McCarthy](./museum/people/john-mccarthy.md)
 
@@ -56,6 +62,10 @@
 - [심볼매크로](./darkside/symbol-macro.md)
 - [Loop](./darkside/loop.md)
 - [Format](./darkside/format.md)
+
+# 자투리
+
+- [자투리](./snippets/snippets.md)
 
 # 기타 라이브러리
 
