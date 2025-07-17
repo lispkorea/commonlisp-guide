@@ -1,0 +1,26 @@
+# Lisp 만들기
+
+- [Build Your Own Lisp](https://www.buildyourownlisp.com/)
+  - [src](https://github.com/orangeduck/BuildYourOwnLisp)
+  - C 언어로 구현. 매크로 구현 없음
+- [kanaka/mal](https://github.com/kanaka/mal)
+  - <https://github.com/kanaka/mal/blob/master/process/guide.md>
+  - 가이드 문서 한장으로 테스트 풀어나가는 형식. 매크로 구현 있음
+  - 여러 언어로 구현된 소스들이 있음.
+- [building-lisp](https://www.lwh.jp/lisp/)
+  - [src](https://github.com/lwhjp/building-lisp/)
+  - C 언어
+- [microsoft/schemy](https://github.com/microsoft/schemy)
+  - A lightweight embeddable Scheme-like interpreter for configuration
+  - C#언어
+- <https://bernsteinbear.com/blog/lisp/>
+  - C 언어
+- [SICP (Structure and Interpretation of Computer Programs)](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/index.html)
+  - by Harold Abelson and Gerald Jay Sussman with Julie Sussman
+    - [MIT 6.001 Structure and Interpretation, 1986](https://www.youtube.com/playlist?list=PLE18841CABEA24090)
+    - <https://ocw.mit.edu/courses/6-001-structure-and-interpretation-of-computer-programs-spring-2005/video_galleries/video-lectures/>
+    - <https://wizardbook.wordpress.com/solutions-index/>
+  - [번역서) 컴퓨터 프로그램의 구조와 해석](https://product.kyobobook.co.kr/detail/S000001033024)
+    - 번역) 김재우,안윤호,김수정,김정민, 감수) 이광근
+  - <https://github.com/lisp-korea/sicp>
+  - <https://github.com/lisp-korea/sicp2014>

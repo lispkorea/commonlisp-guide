@@ -18,8 +18,9 @@ float
 #\char
 
 
-most-positive-fixnum
-most-negative-fixnum
+most-positive-
+most-negative-
+fixnum / short-float / single-float / long-float
 
 | 진법   |     |                      |
 | ------ | --- | -------------------- |

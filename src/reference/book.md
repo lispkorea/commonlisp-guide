@@ -2,11 +2,12 @@
 
 ## 추천 순서
 
-1. Common Lisp: A Gentle Introduction to Symbolic Computation
-1. ANSI Common Lisp
-1. Practical Common Lisp
-1. On Lisp
-1. Common Lisp Recipes - A Problem-Solution Approach
+1. Successful Lisp
+2. Common Lisp: A Gentle Introduction to Symbolic Computation
+3. ANSI Common Lisp
+4. Practical Common Lisp
+5. On Lisp
+6. Common Lisp Recipes - A Problem-Solution Approach
 
 ## 목록
 

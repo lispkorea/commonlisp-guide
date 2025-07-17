@@ -4,6 +4,8 @@
 
 [DS1(Deep Space 1호)](https://en.wikipedia.org/wiki/Deep_Space_1) 이온 추진을 사용한 최초의 NASA 우주선. DS1 우주선이 우주속에서 교착 상태에 빠져서 고장이 남.
 
+이온 엔진
+
 - 60 million miles는 (96,560,400 km) 지구에서 태양 거리의 65%쯤 되는 거리(지구에서 달 거리의 250배쯤 된다)
   - 빛의 속도(= 299,792 km/s (약 30만 km/s))로도 5분 22초(총 322초)걸림.
 
@@ -28,8 +30,14 @@ Uncharted로 유명한 Naughtydog에서 게임 스크립트 언어로 사용한 
   - <https://news.ycombinator.com/item?id=29987501>
   - [GDC 2008 Adventures in Data Compilation and Scripting for UNCHARTED: DRAKE'S FORTUNE](https://gdcvault.com/play/211/Adventures-in-Data-Compilation-and)
     - <https://www.naughtydog.com/blog/presentations_from_game_developers_conference_2008>
+    - Dan Liebgold
   - [GDC 2009 State-Based Scripting in Uncharted 2: Among Thieves](https://www.gdcvault.com/play/1730/State-Based-Scripting-in-UNCHARTED)
     - [slide](https://www.slideshare.net/slideshow/statebased-scripting-in-uncharted-2-among-thieves/7093984)
+    - Jason Q. Gregory
   - [RacketCon 2013: Dan Liebgold - Racket on the Playstation 3? It's Not What you Think!](https://www.youtube.com/watch?v=oSmqbnhHp1c)
+    - Dan Liebgold
   - [GDC 2014 A Context-Aware Character Dialog System](https://www.gdcvault.com/play/1020386/A-Context-Aware-Character-Dialog)
     - [slide](https://gameenginebook.com/resources/Gregory_Jason_ContextAwareDialog.pdf)
+    - Jason Gregory
+  - [HandmadeCon 2016 - Large-scale Systems Architecture](https://www.youtube.com/watch?v=gpINOFQ32o0)
+    - Jason Gregory

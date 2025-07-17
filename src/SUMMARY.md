@@ -44,17 +44,14 @@
   - [gensym](./advanced/gensym.md)
 - [디버그](./advanced/debug.md)
 - [asdf](./advanced/asdf.md)
+- [FFI(Foreign Function Interface)](./advanced/ffi.md)
+- [test](./advanced/test.md)
+- [regexp](./advanced/regexp.md)
+- [network](./advanced/network.md)
 
 # Common Lisp Object System
 
 - [CLOS](./clos/clos.md)
-
-# 박물관
-
-- [커먼리스프 역사](./museum/history.md)
-- [배포판](./museum/implementation.md)
-- [인물들](./museum/people/people.md)
-  - [John McCarthy](./museum/people/john-mccarthy.md)
 
 # 어둠의 길
 
@@ -70,6 +67,17 @@
 # 기타 라이브러리
 
 - [Quicklisp](./library/quicklisp.md)
+
+# 박물관
+
+- [커먼리스프 역사](./museum/history.md)
+- [배포판](./museum/implementation.md)
+- [인물들](./museum/people/people.md)
+  - [John McCarthy](./museum/people/john-mccarthy.md)
+
+# Lisp 만들기
+
+- [Lisp 만들기](./making/writing-lisp.md)
 
 # 참고
 

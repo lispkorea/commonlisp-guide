@@ -54,9 +54,14 @@ cons가 아닌  것은 아톰
 ;;=> T
 ```
 
+- `car`, `cdr`는 `first`, `rest`보다 가독성이 떨어지니, 아이템이 2개 있는 Cons Cell을 제외하고는 사용을 안하는게 하는게 좋음.
+
 ## 짚고 넘어가기
 
-- `car` / `cdr`
-- `first` / `rest`
 - `cons`
-- `consp
+- `consp`
+- `car` / `cdr`
+- `first` / `second` / `third`  / `fourth` / `fifth` / `sixth` / `seventh` / `eighth` / `ninth` / `tenth`
+- `rest`
+
+https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_04.html

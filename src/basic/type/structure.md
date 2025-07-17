@@ -13,5 +13,5 @@
 
 ## 짚고 넘어가기
 
-- defstruct
-- make-Blabla
+- `defstruct`
+- `make-Blabla`

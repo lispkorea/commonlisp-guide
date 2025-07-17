@@ -31,10 +31,8 @@
 
 - [exercism: common-lisp](https://exercism.org/tracks/common-lisp)
 - [kattis: common-lisp](https://open.kattis.com/languages/lisp)
-
-## 강좌 ( 무료 )
-
-- https://exercism.org/tracks/common-lisp/concepts
+- [Baekjoon Online Judge](https://help.acmicpc.net/language/info)
+  - [CHICKEN Scheme](https://www.call-cc.org/)
 
 ## 강좌 ( 유료 )
 
@@ -45,7 +43,12 @@
 ## Ref
 
 - <https://stevelosh.com/blog/2018/08/a-road-to-common-lisp/>
+- <https://simondobson.org/development/annotated-lisp-bibliography/>
+- <https://courses.cs.northwestern.edu/325/readings/readings.html>
 - <https://corecursive.com/?search=lisp>
 - <https://european-lisp-symposium.org/>
-- https://qiita.com/tags/commonlisp
-- https://qiita.com/tags/lisp
+- qiita
+  - [tags/lisp](https://qiita.com/tags/lisp) 
+  - [tags/commonlisp](https://qiita.com/tags/commonlisp)
+- [Hacker News - ?q=lisp](https://hn.algolia.com/?q=lisp)
+  - [Geek News - ?q=lisp](https://news.hada.io/search?q=lisp)
