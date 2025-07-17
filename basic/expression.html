@@ -35,6 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -91,10 +92,13 @@
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
@@ -142,7 +146,7 @@
                         <a href="https://github.com/lispkorea/commonlisp-guide" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/lispkorea/commonlisp-guide/edit/main/src/basic/expression.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/lispkorea/commonlisp-guide/edit/main/src/basic/expression.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -151,7 +155,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -172,6 +181,41 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="표현식"><a class="header" href="#표현식">표현식</a></h1>
+<pre><code class="language-lisp">(+ 1 1)
+;; =&gt; 2
+</code></pre>
+<ul>
+<li><code>(+ 1 1)</code>라는 평가(eval)할 수 있는 표현식(expression)이 있고, 리스프에서는 이를 <code>S-expression</code>이라 합니다.</li>
+<li><code>S-Expression</code>은 <code>S</code>ymbolic-<code>Expression의</code> 약자로, 더 줄여서 <code>sexpr</code>라 쓰기도 합니다.</li>
+</ul>
+<p>sexpr은 Atom | Expression으로 되어있으며, 각각은 다음과 같습니다.</p>
+<pre><code class="language-txt">    Atom : 숫자 | 심볼.
+
+        여기서 심볼은 변수이름이나 데이터로 사용되는 문자집합.
+
+    Expression
+
+        (x . y)와 같은 형태(form)를 띈 표현식. (여기서 x, y는 s-exression)
+</code></pre>
+<pre><code class="language-txt">(x y z) =&gt; (x . (y . (z . nil))
+ =&gt; (심볼 . (심볼 . (심볼 . 심볼))
+ =&gt; (Atom . (Atom . (Atom . Atom)
+ =&gt; Expression (Expression (Expression))
+ =&gt; Expression
+
+(+ 1 1) =&gt; (+ . (1 . (1 . nil))
+ =&gt; (심볼 . (숫자 . (숫자 . 심볼))
+ =&gt; (Atom . (Atom . (Atom . Atom)
+ =&gt; Expression (Expression (Expression))
+ =&gt; Expression
+</code></pre>
+<p>이제 (eval '(+ 1 1))와 같이 eval로 (+ 1 1)이라는 표현식을 평가시키면 2라는 숫자를 얻게됩니다.</p>
+<p>https://www.cliki.net/infix</p>
+<p>AST(Abstract Syntax Tree)
+수학표기</p>
+<p>M-Expression (<code>M</code>eta-<code>Expressions</code>) <a href="https://www.youtube.com/watch?v=hGY3uBHVVr4">Lets LISP like it's 1959</a></p>
+<p>https://en.wikipedia.org/wiki/M-expression
+http://xahlee.info/comp/lisp_sans_sexp.html</p>
 
                     </main>
 
@@ -219,6 +263,7 @@
         <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
+
 
 
     </div>

@@ -36,6 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -92,10 +93,13 @@
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
@@ -149,7 +153,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -171,18 +180,43 @@
                     <main>
                         <h1 id="들어가며"><a class="header" href="#들어가며">들어가며</a></h1>
 <p>🚧 사이트 공사중입니다.</p>
+<p>LISP(<code>LIS</code>t <code>P</code>rocessing)</p>
+<ul>
+<li>
+<p><strong><a href="https://learnxinyminutes.com/ko/common-lisp/">간단하게 살펴보기(Learn X in Y minutes)</a></strong></p>
+</li>
+<li>
+<p><a href="https://metebalci.com/blog/cadr-lisp-machine-and-cadr-processor/">CADR LISP Machine</a>
+<img src="res/mit-lisp-machine-3478-72lg.jpg" alt="CADR LISP Machine" /></p>
+</li>
+</ul>
+<h2 id="repl"><a class="header" href="#repl">REPL</a></h2>
+<p>REPL: 읽고(<code>R</code>ead) 평가하고(<code>E</code>val) 출력(<code>P</code>rint)을 반복(<code>L</code>oop)</p>
+<pre><code class="language-lisp">* (load "hello.lisp")
+</code></pre>
 <h2 id="ref"><a class="header" href="#ref">Ref</a></h2>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Common_Lisp">wiki: Common Lisp</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="설치"><a class="header" href="#설치">설치</a></h1>
 <ul>
-<li>rlwrap
+<li>
+<p><a href="install/./sbcl.html">SBCL</a>을 설치하도록 합니다.</p>
+</li>
+<li>
+<p>rlwrap (ReadLine Wrapper)</p>
 <ul>
-<li>https://github.com/hanslub42/rlwrap</li>
-<li>https://www.cliki.net/rlwrap</li>
-<li>https://gist.github.com/alejandrogallo/d36a4b3b37586d19e54ce4cda8a7c47b</li>
+<li><a href="https://github.com/hanslub42/rlwrap">https://github.com/hanslub42/rlwrap</a></li>
+<li><a href="https://www.cliki.net/rlwrap">https://www.cliki.net/rlwrap</a></li>
+<li><a href="https://gist.github.com/vindarel/2309154f4e751be389fa99239764c363">https://gist.github.com/vindarel/2309154f4e751be389fa99239764c363</a>
+<ul>
+<li><a href="https://gist.github.com/alejandrogallo/d36a4b3b37586d19e54ce4cda8a7c47b">https://gist.github.com/alejandrogallo/d36a4b3b37586d19e54ce4cda8a7c47b</a></li>
 </ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="install/../museum/implementation.html">Lisp 구현체들</a></p>
 </li>
 </ul>
 <h2 id="ref-1"><a class="header" href="#ref-1">Ref</a></h2>
@@ -233,15 +267,86 @@ charset = utf-8
 *.cl   text eol=lf
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="아톰"><a class="header" href="#아톰">아톰</a></h1>
-<pre><code class="language-lisp">(atom 1)
-;;=&gt;  T
-
-(atom 'atom)
-;;=&gt;  T
-
-(atom nil)
-;;=&gt;  T
+<ul>
+<li>Lisp에서 모든 데이터는 콘스 셀(cons cell) 혹은 아톰(atom) 중 하나.</li>
+</ul>
+<h2 id="사전-지식"><a class="header" href="#사전-지식">사전 지식</a></h2>
+<h3 id="표기법notation"><a class="header" href="#표기법notation">표기법(notation)</a></h3>
+<ul>
+<li>표기법
+<ul>
+<li>전위 표기법(prefix notation) : + 1 2</li>
+<li>중위 표기법(infix notation) : 1 + 2</li>
+<li>후위 표기법(postfix notation) : 1 2 +</li>
+</ul>
+</li>
+<li>자동완성
+<ul>
+<li>전위 표기법 특성 상 Method Completion / Property Completion 이 안됨</li>
+<li>심볼 자동완성에 의존</li>
+</ul>
+</li>
+</ul>
+<p>code is data —  Homoiconicity</p>
+<h3 id="참과-거짓"><a class="header" href="#참과-거짓">참과 거짓</a></h3>
+<p>참 : T
+거짓 : NIL</p>
+<h2 id="아톰이-아닌-것"><a class="header" href="#아톰이-아닌-것">아톰이 아닌 것</a></h2>
+<ul>
+<li>Cons Cell인 것
+<ul>
+<li>Cons Cell이 결합된 리스트(list) 역시 아톰이 아니다.</li>
+</ul>
+</li>
+<li>Cons Cell (콘스 셀)
+<ul>
+<li>두 개의 값을 담는 한 쌍 (first . second)</li>
+</ul>
+</li>
+<li>List (리스트)
+<ul>
+<li>Cons Cell을 이어 붙인 연결 구조</li>
+</ul>
+</li>
+</ul>
+<p>📋 Cons는 아톰이 아니다</p>
+<pre><code class="language-lisp">(atom (cons 1 2))   ; =&gt; NIL
+(atom '(1 . 2))     ; =&gt; NIL
 </code></pre>
+<p>📋 리스트는 아톰이 아니다</p>
+<pre><code class="language-lisp">(atom (list 1 2 3)) ; =&gt; NIL
+(atom '(1 2 3))     ; =&gt; NIL
+</code></pre>
+<h2 id="아톰인-것"><a class="header" href="#아톰인-것">아톰인 것</a></h2>
+<p>🔢 숫자는 아톰</p>
+<pre><code class="language-lisp">(atom 42)           ; =&gt; T
+(atom -1.5)         ; =&gt; T
+</code></pre>
+<p>🔤 문자열, 문자도 아톰</p>
+<pre><code class="language-lisp">(atom "hello")      ; =&gt; T
+(atom #\A)          ; =&gt; T
+</code></pre>
+<p>📌 키워드도 아톰</p>
+<pre><code class="language-lisp">(atom :ok)          ; =&gt; T
+</code></pre>
+<p>🧠 심볼도 아톰</p>
+<pre><code class="language-lisp">(atom 'x)           ; =&gt; T
+(atom 'atom)        ; =&gt; T
+</code></pre>
+<p>🧪 T / NIL 도 아톰이다</p>
+<p>'()은 NIL과 동의어(synonym)</p>
+<pre><code class="language-lisp">(atom T)          ; =&gt; T
+(atom NIL)          ; =&gt; T
+(atom '())          ; =&gt; T
+</code></pre>
+<p>📦 함수 객체도 아톰이다</p>
+<pre><code class="language-lisp">(atom #'helloworld) ; =&gt; T
+</code></pre>
+<h2 id="짚고-넘어가기"><a class="header" href="#짚고-넘어가기">짚고 넘어가기</a></h2>
+<ul>
+<li><code>atom</code></li>
+</ul>
+<p>https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_01.html</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cons"><a class="header" href="#cons">Cons</a></h1>
 <p>s-expression</p>
 <p>cons cell</p>
@@ -286,17 +391,71 @@ charset = utf-8
 (typep '(1 . 2) 'list)
 ;;=&gt; T
 </code></pre>
-<h2 id="짚고-넘어가기"><a class="header" href="#짚고-넘어가기">짚고 넘어가기</a></h2>
 <ul>
-<li><code>car</code> / <code>cdr</code></li>
-<li><code>first</code> / <code>rest</code></li>
-<li><code>cons</code></li>
-<li>`consp</li>
+<li><code>car</code>, <code>cdr</code>는 <code>first</code>, <code>rest</code>보다 가독성이 떨어지니, 아이템이 2개 있는 Cons Cell을 제외하고는 사용을 안하는게 하는게 좋음.</li>
 </ul>
+<h2 id="짚고-넘어가기-1"><a class="header" href="#짚고-넘어가기-1">짚고 넘어가기</a></h2>
+<ul>
+<li><code>cons</code></li>
+<li><code>consp</code></li>
+<li><code>car</code> / <code>cdr</code></li>
+<li><code>first</code> / <code>second</code> / <code>third</code>  / <code>fourth</code> / <code>fifth</code> / <code>sixth</code> / <code>seventh</code> / <code>eighth</code> / <code>ninth</code> / <code>tenth</code></li>
+<li><code>rest</code></li>
+</ul>
+<p>https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_04.html</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="표현식"><a class="header" href="#표현식">표현식</a></h1>
+<pre><code class="language-lisp">(+ 1 1)
+;; =&gt; 2
+</code></pre>
+<ul>
+<li><code>(+ 1 1)</code>라는 평가(eval)할 수 있는 표현식(expression)이 있고, 리스프에서는 이를 <code>S-expression</code>이라 합니다.</li>
+<li><code>S-Expression</code>은 <code>S</code>ymbolic-<code>Expression의</code> 약자로, 더 줄여서 <code>sexpr</code>라 쓰기도 합니다.</li>
+</ul>
+<p>sexpr은 Atom | Expression으로 되어있으며, 각각은 다음과 같습니다.</p>
+<pre><code class="language-txt">    Atom : 숫자 | 심볼.
+
+        여기서 심볼은 변수이름이나 데이터로 사용되는 문자집합.
+
+    Expression
+
+        (x . y)와 같은 형태(form)를 띈 표현식. (여기서 x, y는 s-exression)
+</code></pre>
+<pre><code class="language-txt">(x y z) =&gt; (x . (y . (z . nil))
+ =&gt; (심볼 . (심볼 . (심볼 . 심볼))
+ =&gt; (Atom . (Atom . (Atom . Atom)
+ =&gt; Expression (Expression (Expression))
+ =&gt; Expression
+
+(+ 1 1) =&gt; (+ . (1 . (1 . nil))
+ =&gt; (심볼 . (숫자 . (숫자 . 심볼))
+ =&gt; (Atom . (Atom . (Atom . Atom)
+ =&gt; Expression (Expression (Expression))
+ =&gt; Expression
+</code></pre>
+<p>이제 (eval '(+ 1 1))와 같이 eval로 (+ 1 1)이라는 표현식을 평가시키면 2라는 숫자를 얻게됩니다.</p>
+<p>https://www.cliki.net/infix</p>
+<p>AST(Abstract Syntax Tree)
+수학표기</p>
+<p>M-Expression (<code>M</code>eta-<code>Expressions</code>) <a href="https://www.youtube.com/watch?v=hGY3uBHVVr4">Lets LISP like it's 1959</a></p>
+<p>https://en.wikipedia.org/wiki/M-expression
+http://xahlee.info/comp/lisp_sans_sexp.html</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="심볼"><a class="header" href="#심볼">심볼</a></h1>
+<p>(defparameter x 42)
+(symbol-value 'x)       ; =&gt; 42
+(symbol-name 'x)        ; =&gt; "X"
+(symbol-package 'x)     ; =&gt; #&lt;PACKAGE "COMMON-LISP-USER"&gt;</p>
+<p>(intern "AAAA")        ; =&gt; AAAA
+(intern "aaa")         ; =&gt; |aaa|</p>
+<p>할당 assign
+(let* )
+let
+flet
+labels</p>
+<p>https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_05.html</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="주석"><a class="header" href="#주석">주석</a></h1>
-<p>주석은 세미콜론으로 시작합니다( ; )</p>
+<h2 id="한-줄-주석"><a class="header" href="#한-줄-주석">한 줄 주석</a></h2>
+<p>한 줄 주석은 세미콜론( ; )으로 시작합니다</p>
+<h3 id="예"><a class="header" href="#예">예)</a></h3>
 <div class="table-wrapper"><table><thead><tr><th>세미콜론 갯수</th><th>쓰임세</th></tr></thead><tbody>
 <tr><td>4개</td><td>파일 단위로는</td></tr>
 <tr><td>3개</td><td>구획(section) 설명으로는</td></tr>
@@ -304,23 +463,75 @@ charset = utf-8
 <tr><td>1개</td><td>한개의 라인에 대해서</td></tr>
 </tbody></table>
 </div>
-<h2 id="예"><a class="header" href="#예">예</a></h2>
-<pre><code>;;;; hello.lisp
+<pre><code class="language-lisp">;;;; hello.lisp
 
-
-;;; Welcome, Lisp World
+;;; Welcome
+;;; Lisp World
 
 (defun hello (a b)
   ;; a와 b를 더하고
   (+ a b))          ; 반환
 </code></pre>
+<h2 id="여러-줄-주석"><a class="header" href="#여러-줄-주석">여러 줄 주석</a></h2>
+<ul>
+<li>여러줄 주석 <code>#|</code>으로 시작해서 <code>|#</code> 로 끝납니다.</li>
+<li>코딩 스타일로 <code>#| |#</code>로 감싸는 여러 줄 주석보다는 세미콜론 <code>;</code>로 처리하는 주석을 더 선호하기도 함.
+<ul>
+<li><a href="https://www.cliki.net/Riastradh%27s%20Lisp%20Style%20Rules%20%5Bfor%20Common%20Lisp%5D">ref</a></li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-lisp">#|
+  여러 줄 주석
+
+  #|
+     이런것 도 가능
+  |#
+|#
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="함수"><a class="header" href="#함수">함수</a></h1>
+<p>scope - lexical / dynamic</p>
+<h2 id="함수-정의"><a class="header" href="#함수-정의">함수 정의</a></h2>
+<p>defun</p>
+<h2 id="closure"><a class="header" href="#closure">closure</a></h2>
+<p>counter</p>
+<p>(documentation 'hello 'function)
+(documentation (function hello) 'function)
+(documentation #'hello 'function)
+(funcall 'hello "hi")
+(inspect 'hello)</p>
+<p>let/let*
+flet/labels</p>
+<p>(values 1 2)
+multiple-value-bind
+multiple-value-list
+values-list</p>
+<p>https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_07.html</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="재귀"><a class="header" href="#재귀">재귀</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="values"><a class="header" href="#values">values</a></h1>
+<p>function.md</p>
+<p>https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_09.html</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="return"><a class="header" href="#return">return</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="람다"><a class="header" href="#람다">람다</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="조건문"><a class="header" href="#조건문">조건문</a></h1>
+<p>flow</p>
+<p>https://github.com/Shinmera/for/
+https://iterate.common-lisp.dev/
+https://github.com/yitzchak/trivial-do/</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="비교"><a class="header" href="#비교">비교</a></h1>
+<h2 id="ref-2"><a class="header" href="#ref-2">Ref</a></h2>
+<ul>
+<li><a href="https://eli.thegreenplace.net/2004/08/08/equality-in-lisp">https://eli.thegreenplace.net/2004/08/08/equality-in-lisp</a></li>
+<li><a href="https://www.nhplace.com/kent/PS/EQUAL.html">https://www.nhplace.com/kent/PS/EQUAL.html</a></li>
+</ul>
+<h2 id="짚고-넘어가기-2"><a class="header" href="#짚고-넘어가기-2">짚고 넘어가기</a></h2>
+<ul>
+<li><code>=</code></li>
+<li><code>eq</code></li>
+<li><code>eql</code></li>
+<li><code>equal</code></li>
+<li><code>equalp</code></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="데이터-타입"><a class="header" href="#데이터-타입">데이터 타입</a></h1>
 <p>1
 1.1
@@ -442,8 +653,9 @@ ratio, rational, real, number, t</p>
 <p>float
 #C(a b)
 #\char</p>
-<p>most-positive-fixnum
-most-negative-fixnum</p>
+<p>most-positive-
+most-negative-
+fixnum / short-float / single-float / long-float</p>
 <div class="table-wrapper"><table><thead><tr><th>진법</th><th></th><th></th></tr></thead><tbody>
 <tr><td>2진법</td><td>#b</td><td><code>b</code>inary</td></tr>
 <tr><td>8진법</td><td>#o</td><td><code>o</code>ctal</td></tr>
@@ -498,7 +710,7 @@ REM</p>
 <p>isqrt, which returns the greatest integer less than or equal to the exact positive square root of natural.
 gcd <code>G</code>reatest <code>C</code>ommon <code>D</code>enominator
 lcm <code>L</code>east <code>C</code>ommon <code>M</code>ultiple.</p>
-<h2 id="ref-2"><a class="header" href="#ref-2">Ref</a></h2>
+<h2 id="ref-3"><a class="header" href="#ref-3">Ref</a></h2>
 <ul>
 <li><a href="https://lispcookbook.github.io/cl-cookbook/numbers.html">The Common Lisp Cookbook – Numbers</a></li>
 <li><a href="https://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node16.html#SECTION00610000000000000000">Common Lisp the Language, 2nd Edition - 2.1. Numbers</a></li>
@@ -517,7 +729,7 @@ CHAR-EQUAL 대소문자 구분 x</p>
 <tr><td>&gt;=</td><td>CHAR&gt;=</td><td>CHAR-NOT-LESSP</td></tr>
 </tbody></table>
 </div>
-<h2 id="ref-3"><a class="header" href="#ref-3">Ref</a></h2>
+<h2 id="ref-4"><a class="header" href="#ref-4">Ref</a></h2>
 <ul>
 <li><a href="https://gigamonkeys.com/book/numbers-characters-and-strings.html">Practical Common Lisp - 10. Numbers, Characters, and Strings</a></li>
 </ul>
@@ -536,6 +748,23 @@ CHAR-EQUAL 대소문자 구분 x</p>
 :start2
 :end2</p>
 <p>(string= "foobarbaz" "quuxbarfoo" :start1 3 :end1 6 :start2 4 :end2 7)</p>
+<h2 id="interpolation"><a class="header" href="#interpolation">interpolation</a></h2>
+<ul>
+<li><a href="https://github.com/edicl/cl-interpol">CL-INTERPOL</a>
+<ul>
+<li>String interpolation for Common Lisp</li>
+</ul>
+</li>
+</ul>
+<h2 id="format"><a class="header" href="#format">format</a></h2>
+<ul>
+<li><a href="https://lispcookbook.github.io/cl-cookbook/strings.html#string-formatting-format">https://lispcookbook.github.io/cl-cookbook/strings.html#string-formatting-format</a></li>
+<li><a href="https://gigamonkeys.com/book/a-few-format-recipes">https://gigamonkeys.com/book/a-few-format-recipes</a></li>
+</ul>
+<h2 id="ref-5"><a class="header" href="#ref-5">Ref</a></h2>
+<ul>
+<li><a href="https://github.com/vindarel/cl-str">cl-str</a></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="배열"><a class="header" href="#배열">배열</a></h1>
 <pre><code class="language-lisp">(defparameter *array* (make-array '(2 4) :initial-element 0))
 ;;=&gt; *ARRAY*
@@ -568,10 +797,10 @@ CHAR-EQUAL 대소문자 구분 x</p>
 (make-Hello :a 1 :b 2)
 </code></pre>
 <p>;; :conc-name</p>
-<h2 id="짚고-넘어가기-1"><a class="header" href="#짚고-넘어가기-1">짚고 넘어가기</a></h2>
+<h2 id="짚고-넘어가기-3"><a class="header" href="#짚고-넘어가기-3">짚고 넘어가기</a></h2>
 <ul>
-<li>defstruct</li>
-<li>make-Blabla</li>
+<li><code>defstruct</code></li>
+<li><code>make-Blabla</code></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="map"><a class="header" href="#map">map</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="print"><a class="header" href="#print">print</a></h1>
@@ -592,43 +821,443 @@ CHAR-EQUAL 대소문자 구분 x</p>
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="파일-입출력"><a class="header" href="#파일-입출력">파일 입출력</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="바인드"><a class="header" href="#바인드">바인드</a></h1>
+<p>https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_06.html</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="패키지"><a class="header" href="#패키지">패키지</a></h1>
+<div class="table-wrapper"><table><thead><tr><th>항목</th><th>Quicklisp</th><th>Ultralisp</th></tr></thead><tbody>
+<tr><td>URL</td><td><a href="https://www.quicklisp.org">https://www.quicklisp.org</a></td><td><a href="https://ultralisp.org">https://ultralisp.org</a></td></tr>
+<tr><td>주 목적</td><td>안정적인 패키지 배포</td><td>빠른 릴리스/CI 기반 배포</td></tr>
+<tr><td>릴리스 주기</td><td>한 달에 한 번 수동 릴리스</td><td>자동화된 CI 시스템으로 몇 시간마다</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-lisp">;; ultralisp install
+
+(ql-dist:install-dist "http://dist.ultralisp.org/" :prompt nil)
+</code></pre>
+<h2 id="ref-6"><a class="header" href="#ref-6">Ref</a></h2>
+<ul>
+<li><a href="https://lisp-lang.org/learn/writing-libraries">https://lisp-lang.org/learn/writing-libraries</a></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="타입-part2"><a class="header" href="#타입-part2">타입 part2</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="에러"><a class="header" href="#에러">에러</a></h1>
+<p>error
+warn
+'simple-error
+(signal (make-condition 'error) )
+(define-condition my-condition (simple-condition) // 사용자 에러 정의
+)</p>
+<p>// sb-xc (ignore-errors (error "wtf"))
+(unwind-protect (error "wtf")
+)</p>
+<p>(invoke-debugger
+(trivial-backtrace:print-backtrace
+https://github.com/hraban/trivial-backtrace
+Portable simple API to work with backtraces in Common Lisp</p>
+<p>handle-case
+https://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node346.html
+https://lisp-docs.github.io/cl-language-reference/chap-9/j-b-condition-system-concepts</p>
+<p>https://cl-community-spec.github.io/pages/handler_002dbind.html</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="매크로"><a class="header" href="#매크로">매크로</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="gensym"><a class="header" href="#gensym">gensym</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="디버그"><a class="header" href="#디버그">디버그</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="asdf"><a class="header" href="#asdf">asdf</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="clos"><a class="header" href="#clos">CLOS</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="커먼리스프-역사"><a class="header" href="#커먼리스프-역사">커먼리스프 역사</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="배포판implementation"><a class="header" href="#배포판implementation">배포판(implementation)</a></h1>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>`</td><td>Backquote</td></tr>
+<tr><td>,</td><td>Comma</td></tr>
+<tr><td>,@</td><td>Comma-splice</td></tr>
+<tr><td>',</td><td>Quote-comma</td></tr>
+</tbody></table>
+</div>
+<p>quote
+defmacro</p>
+<p>매크로 확장
+M-x slime-macroexpand-all (C-c M-m)</p>
+<p>매크로를 수정하게 되면 매크로를 쓴 함수 역시 다시 평가해야 하는데
+M-x slime-who-macroexpands 로 찾고 C-c C-k로 컴파일</p>
+<p>&amp;body
+(gensym)
+variable capture</p>
 <ul>
-<li><a href="https://www.sbcl.org/">SBCL(Steel Bank Common Lisp)</a></li>
-<li><a href="https://armedbear.common-lisp.dev/">ECL(Embeddable Common Lisp)</a></li>
-<li><a href="https://ecl.common-lisp.dev/">ABCL(Armed Bear Common Lisp)</a></li>
-<li><a href="https://ccl.clozure.com/">CCL(Clozure Common Lisp)</a></li>
-<li><a href="http://www.clisp.org/">CLISP</a></li>
-<li><a href="https://github.com/clasp-developers/clasp">CLASP</a>
+<li>compile function
 <ul>
-<li>Bringing Common Lisp and C++ Together</li>
+<li>read time - reader macros</li>
+<li>macro expansion time - macros</li>
+<li>compilation time</li>
+<li>run time - function</li>
 </ul>
 </li>
-<li><a href="https://franz.com/products/allegro-common-lisp/">Allegro Common Lisp by fanz</a></li>
-<li><a href="https://www.lispworks.com/products/lispworks.html">Lispworks</a></li>
 </ul>
-<h2 id="ref-4"><a class="header" href="#ref-4">Ref</a></h2>
+<p>alexandria:with-gensyms
+https://alexandria.common-lisp.dev/
+https://gitlab.common-lisp.net/alexandria/alexandria</p>
+<p>================================================================================================================================================
+define-symbol-macro
+symbol-macrolet</p>
+<p>sharpsign(#)  - https://www.lispworks.com/documentation/HyperSpec/Body/02_dh.htm</p>
+<p>#. read-time evaluation</p>
+<p>(defun func1 ()
+:my-func1)</p>
+<p>(defun #.(func1) ()
+:kkk)</p>
+<p>;;&gt; (:func1)
+;;=&gt; :FUNC10
+;;&gt; (:my-func1)
+;;=&gt; :KKK</p>
+<p>(asdf:defsystem "mysystem"
+:decription "short description"
+:long-description
+#.(uiop:read-file-string (subpathname <em>load-pathname</em> "README.md")))</p>
 <ul>
-<li><a href="https://lisp-lang.org/wiki/article/implementations">https://lisp-lang.org/wiki/article/implementations</a></li>
+<li>
+<p>sly-macrostep</p>
+<ul>
+<li><a href="https://github.com/joaotavora/sly-macrostep">https://github.com/joaotavora/sly-macrostep</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="인물들"><a class="header" href="#인물들">인물들</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="john-mccarthy"><a class="header" href="#john-mccarthy">John McCarthy</a></h1>
+</li>
+<li>
+<p><a href="https://cl-community-spec.github.io/pages/gensym.html">https://cl-community-spec.github.io/pages/gensym.html</a></p>
+</li>
+<li>
+<p><a href="https://cl-community-spec.github.io/pages/quote.html">https://cl-community-spec.github.io/pages/quote.html</a></p>
+</li>
+<li>
+<p><a href="https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_03.html">https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_03.html</a></p>
+</li>
+<li>
+<p><a href="https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_08.html">https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_08.html</a></p>
+</li>
+<li>
+<p><code>gensym</code></p>
+</li>
+<li>
+<p><code>quote</code></p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="gensym"><a class="header" href="#gensym">gensym</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="디버그"><a class="header" href="#디버그">디버그</a></h1>
+<p>(declaim (optimize (debug 3) (speed 0) (safety 3)))</p>
+<p>(declare (ignore arg))</p>
+<h2 id="ref-7"><a class="header" href="#ref-7">Ref</a></h2>
+<ul>
+<li><a href="https://malisper.me/category/debugging-common-lisp/">https://malisper.me/category/debugging-common-lisp/</a></li>
+<li><a href="https://www.youtube.com/watch?v=jBBS4FeY7XM">Debugging Lisp: fix and resume a program from any point in the stack - how Common Lisp stands out.</a></li>
+<li><a href="https://cl-community-spec.github.io/pages/invoke_002ddebugger.html">https://cl-community-spec.github.io/pages/invoke_002ddebugger.html</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="asdf"><a class="header" href="#asdf">ASDF</a></h1>
+<div class="table-wrapper"><table><thead><tr><th>버전</th><th></th></tr></thead><tbody>
+<tr><td>3</td><td>released May 15th 2013. UIOP is part of ASDF 3</td></tr>
+<tr><td>2</td><td>François-René Rideau's ASDF 2 (released May 31st 2010).</td></tr>
+<tr><td>1</td><td>Daniel Barlow's ASDF (created on August 1st 2001)</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li><a href="https://asdf.common-lisp.dev/">ASDF</a>
+<ul>
+<li><code>A</code>nother <code>S</code>ystem <code>D</code>efinition <code>F</code>acility</li>
+</ul>
+</li>
+<li>.asd 파일
+<ul>
+<li>lisp 프로젝트 관리 파일</li>
+<li><code>A</code>SDF <code>s</code>ystem <code>d</code>efinition</li>
+</ul>
+</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>경로</th><th>설명</th></tr></thead><tbody>
+<tr><td>~/common-lisp/</td><td>Common Lisp 소프트웨어 설치 기본 위치(권장)</td></tr>
+<tr><td>~/.local/share/common-lisp/source/</td><td></td></tr>
+</tbody></table>
+</div>
+<ul>
+<li>크게 다음 2파트로 나뉩니다.
+<ul>
+<li><code>asdf/defsystem</code>: 패키지정의</li>
+<li><code>uiop</code>: 유틸리티</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-lisp">;; file: helloworld/helloworld.asdf
+
+(asdf:defsystem "helloworld"
+
+  :build-operation program-op
+  :build-pathname "helloworld"
+  :entry-point "helloworld::main"
+
+  :depends-on ()
+
+  :components
+  ((:static-file "README.md")
+   (:module "src"
+    :depends-on ()
+    :components
+    ((:file "package")
+     (:file "hello" :depends-on ("package"))))))
+</code></pre>
+<pre><code class="language-lisp">;; file: helloworld/src/package.lisp
+
+(defpackage :helloworld
+  (:use :common-lisp))
+(in-package :helloworld)
+</code></pre>
+<pre><code class="language-lisp">;; file: helloworld/src/hello.lisp
+
+(in-package :helloworld)
+
+(defun -main (args)
+  (princ args))
+
+(defun main ()
+  (-main (uiop:command-line-arguments)))
+</code></pre>
+<h2 id="asd"><a class="header" href="#asd">.asd</a></h2>
+<p>시스템이 있고 그 다음 패키지</p>
+<ul>
+<li>#P"..." : Common Lisp에서 pathname 리터럴을 의미합니다.
+<ul>
+<li>예: #P"/home/user/code" → (make-pathname :directory '(:absolute "home" "user" "code"))</li>
+<li>해당 경로가 실제 존재하는지는 확인하지 않음</li>
+</ul>
+</li>
+<li>truename : Pathname 리턴
+<ul>
+<li>(truename "D:/@lisp/my-lisp-systems") ;; =&gt; #P"D:/@lisp/my-lisp-systems/"</li>
+<li>경로가 존재하지 않으면 에러</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-lisp">(require 'asdf) ; =&gt; ("ASDF" "asdf" "UIOP" "uiop")
+
+;;; 버전 확인
+(asdf:asdf-version) ; =&gt; "3.3.1"
+
+;;; 시스템 폴더를 센트럴 레지스트리에 추가
+(pushnew (truename "D:/@lisp/my-lisp-systems/helloworld") asdf:*central-registry*)
+
+;;; 시스템 로드. helloworld.asd 파일을 읽어들임
+(asdf:load-system :helloworld)
+
+;;; 시스템 로드 ( 강제 )
+(asdf:load-system :helloworld :force t)
+
+
+(asdf:make :helloworld)
+
+
+(asdf:load-system :helloworld)
+(asdf:compile-system :helloworld)
+</code></pre>
+<p>.fasl - <code>Fas</code>t <code>L</code>oading (or Loadable) file
+(asdf:operate 'asdf:compile-bundle-op :helloworld :verbose t)</p>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>program-op</td><td>(create a standalone application, which we will see below), etc.</td></tr>
+<tr><td>compile-bundle-op</td><td>(create a single fasl for the entire system, for delivery),</td></tr>
+<tr><td>monolithic-compile-bundle-op</td><td>(create a single fasl for the entire system and all its transitive dependencies, for delivery),</td></tr>
+<tr><td>compile-op</td><td>(ensure the system is compiled, without necessarily loading all of it, or any bit of it),</td></tr>
+<tr><td>image-op</td><td>(create a development image with this system already loaded, for fast startup),</td></tr>
+<tr><td>load-source-op</td><td>(load the system from source without compiling),</td></tr>
+</tbody></table>
+</div>
+<p>compile-bundle-op필요한 각 시스템에 대해 하나의 FASL 파일을 생성하고, 여러 FASL을 하나로 묶어 각 시스템을 하나의 FASL로 제공할 수 있습니다.
+monolithic-compile-bundle-op대상 시스템과 모든 종속성에 대해 하나의 FASL 파일을 생성하여 전체 애플리케이션을 하나의 FASL로 제공할 수 있습니다</p>
+<p>(defsystem :mysystem :class :precompiled-system
+:fasl (some expression that will evaluate to a pathname))</p>
+<p>;; asdf:operate == asdf:oos (  operate-on-system )</p>
+<p>(asdf/output-translations:output-translations)
+asdf/output-translations:<em>output-translations</em>
+https://github.com/fare/asdf/blob/master/output-translations.lisp</p>
+<p>https://www.sbcl.org/manual/asdf.html#Configuring-ASDF-to-find-your-systems</p>
+<h2 id="asdfdefsystem"><a class="header" href="#asdfdefsystem">asdf/defsystem</a></h2>
+<ul>
+<li><a href="https://asdf.common-lisp.dev/asdf.html">https://asdf.common-lisp.dev/asdf.html</a></li>
+<li><a href="https://www.sbcl.org/manual/asdf.html">https://www.sbcl.org/manual/asdf.html</a></li>
+<li><a href="https://qiita.com/MYAO/items/874aafcc531862c5f7c7">https://qiita.com/MYAO/items/874aafcc531862c5f7c7</a></li>
+<li><a href="https://github.com/fare/asdf/blob/master/doc/best_practices.md">https://github.com/fare/asdf/blob/master/doc/best_practices.md</a></li>
+</ul>
+<h2 id="uiop"><a class="header" href="#uiop">uiop</a></h2>
+<p>UIOP(<code>U</code>tilities for <code>I</code>mplementation and <code>O</code>S-<code>P</code>ortability)</p>
+<ul>
+<li><a href="https://asdf.common-lisp.dev/uiop.html">https://asdf.common-lisp.dev/uiop.html</a></li>
+<li><a href="https://quickdocs.org/uiop">https://quickdocs.org/uiop</a></li>
+<li><a href="https://zenn.dev/hyotang666/articles/3f7abcec6f8270">https://zenn.dev/hyotang666/articles/3f7abcec6f8270</a></li>
+</ul>
+<pre><code class="language-lisp">;; example
+
+(require 'asdf) ; =&gt; ("ASDF" "asdf" "UIOP" "uiop")
+
+(uiop:command-line-arguments) ; 커맨드라인 인자
+
+(uiop:getenv "USER")
+
+(uiop:run-program "firefox") ; 동기
+(uiop:launch-program "firefox") ; 비동기
+
+(uiop:run-program (list "git" "--help") :output t)
+(uiop:run-program "htop" :output :interactive :input :interactive)
+
+;;; pipe: ls | sort
+(uiop:run-program "sort"
+                   :input
+                   (uiop:process-info-output
+                    (uiop:launch-program "ls"
+                                         :output :stream))
+                   :output :string)
+(uiop:with-temporary-file (:stream s :pathname p :keep t)
+  (format t "path is ~a~%" p)
+  (format s "hello, temporary file!"))
+
+(uiop:quit 0)
+</code></pre>
+<h2 id="ref-8"><a class="header" href="#ref-8">Ref</a></h2>
+<ul>
+<li><a href="https://asdf.common-lisp.dev/asdf.html">https://asdf.common-lisp.dev/asdf.html</a>
+<ul>
+<li><a href="https://asdf.common-lisp.dev/uiop.html">https://asdf.common-lisp.dev/uiop.html</a></li>
+<li><a href="https://asdf.common-lisp.dev/uiop.html#UIOP_002fOS">https://asdf.common-lisp.dev/uiop.html#UIOP_002fOS</a></li>
+<li><a href="https://asdf.common-lisp.dev/uiop.html#UIOP_002fFILESYSTEM">https://asdf.common-lisp.dev/uiop.html#UIOP_002fFILESYSTEM</a></li>
+<li><a href="https://asdf.common-lisp.dev/uiop.html#UIOP_002fUTILITY">https://asdf.common-lisp.dev/uiop.html#UIOP_002fUTILITY</a></li>
+<li><a href="https://asdf.common-lisp.dev/uiop.html#UIOP_002fPACKAGE">https://asdf.common-lisp.dev/uiop.html#UIOP_002fPACKAGE</a></li>
+<li><a href="https://asdf.common-lisp.dev/asdf.html#Defining-systems-with-defsystem">https://asdf.common-lisp.dev/asdf.html#Defining-systems-with-defsystem</a></li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ffiforeign-function-interface"><a class="header" href="#ffiforeign-function-interface">FFI(Foreign Function Interface)</a></h1>
+<p>ABI(<code>A</code>pplication <code>B</code>inary <code>I</code>nterface)</p>
+<p>C ABI C언어의 ABI</p>
+<p>FFI(<code>F</code>oreign <code>F</code>unction <code>I</code>nterface)
+2. FFI는 ABI 호환을 맞춰주는 "인터페이스" 역할</p>
+<p>libclang: Clang의 내부 AST(Abstract Syntax Tree)을 외부에서 분석할 수 있게 해주는 C API 라이브러리</p>
+<ul>
+<li>cffi
+<ul>
+<li><a href="https://github.com/cffi/cffi">https://github.com/cffi/cffi</a>
+<ul>
+<li><a href="https://github.com/rpav/c2ffi">https://github.com/rpav/c2ffi</a></li>
+</ul>
+</li>
+<li><a href="https://cffi.common-lisp.dev/">https://cffi.common-lisp.dev/</a></li>
+</ul>
+</li>
+<li>cl-autowrap
+<ul>
+<li><a href="https://github.com/rpav/cl-autowrap">https://github.com/rpav/cl-autowrap</a></li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="test"><a class="header" href="#test">Test</a></h1>
+<p>https://github.com/fukamachi/rove
+https://github.com/lmj/1am
+https://github.com/lispci/fiveam</p>
+<p>https://lispcookbook.github.io/cl-cookbook/testing.html
+https://sabracrolleton.github.io/testing-framework</p>
+<p>https://github.com/OdonataResearchLLC/lisp-unit
+https://github.com/OdonataResearchLLC/lisp-unit/wiki</p>
+<p>https://github.com/g000001/lisp-critic</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="regular-expressions"><a class="header" href="#regular-expressions">Regular Expressions</a></h1>
+<ul>
+<li>CL-PPCRE(Portable Perl-compatible regular expressions)
+<ul>
+<li><a href="https://github.com/edicl/cl-ppcre">https://github.com/edicl/cl-ppcre</a></li>
+<li><a href="https://edicl.github.io/cl-ppcre/">https://edicl.github.io/cl-ppcre/</a></li>
+<li><a href="https://common-lisp-libraries.readthedocs.io/cl-ppcre/">https://common-lisp-libraries.readthedocs.io/cl-ppcre/</a></li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="network"><a class="header" href="#network">network</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="clos"><a class="header" href="#clos">CLOS</a></h1>
+<p><code>C</code>ommon <code>L</code>isp <code>O</code>bject <code>S</code>ystem</p>
+<p>defpackage :hello
+:use :common-lisp
+:documentation
+in-package :hello</p>
+<p>(defclass Hello () (name age) ) 에서 C-c C-y하면 (make-instance 'Hello ) 가 입력됨</p>
+<p>(setf hello (make-instance 'Hello))
+(setf (slot-value hello 'name) "my name")
+:initform
+:initarg
+:reader / :writer / :accesor
+:documentation
+:allocation - :class / :instance</p>
+<p>(defclass Hello ()
+((name
+:documentation "Name"
+:initarg :name
+:accessor name)))
+;; C-c C-y</p>
+<p>(defmethod hi ((o Hello))
+(format t "Hello ~a!" (name o)))</p>
+<p>(defparameter a (make-instance 'Hello :name "my Name"))</p>
+<p>call-next-method // super</p>
+<p>(typep a 'BaseA) ;; =&gt; T           // a is BaseA
+subtypep ✔️ 타입 vs 타입 비교       // typeof(Derived).IsSubclassOf(typeof(Base))
+find-class 클래스 심볼로 클래스 객체를 찾아줌 // typeof
+class-of 객체가 정확히 어떤 클래스의 인스턴스인지 알려줌 // .GetType()</p>
+<p>:before / :after / :around</p>
+<p>(defmethod print-object ((o Hello) stream)
+)
+(print-unreadable-object
+(defmethod INITIALIZE-INSTANCE</p>
+<p>다중상속 가능</p>
+<p>(defgeneric greet (obj)
+(:documentation "asdf")
+(:method ((p person))
+)
+(:method ((o X))
+))
+https://github.com/pcostanza/closer-mop</p>
+<p>M-x slime-unintern-symbol
+(fmakunbound 'greet)</p>
+<h2 id="mop"><a class="header" href="#mop">MOP</a></h2>
+<p><code>M</code>eta<code>o</code>bject <code>P</code>rotocol</p>
+<p><a href="https://github.com/pcostanza/closer-mop">Closer to MOP</a></p>
+<h2 id="ref-9"><a class="header" href="#ref-9">Ref</a></h2>
+<ul>
+<li><a href="https://lispcookbook.github.io/cl-cookbook/clos.html">https://lispcookbook.github.io/cl-cookbook/clos.html</a>
+<ul>
+<li><a href="https://cl-community-spec.github.io/pages/defclass.html">https://cl-community-spec.github.io/pages/defclass.html</a></li>
+<li><a href="https://cl-community-spec.github.io/pages/print_002dobject.html">https://cl-community-spec.github.io/pages/print_002dobject.html</a></li>
+<li><a href="https://cl-community-spec.github.io/pages/Initialize_002dInstance.html">https://cl-community-spec.github.io/pages/Initialize_002dInstance.html</a></li>
+<li><a href="https://cl-community-spec.github.io/pages/Inheritance.html">https://cl-community-spec.github.io/pages/Inheritance.html</a></li>
+<li><a href="https://cl-community-spec.github.io/pages/defgeneric.html">https://cl-community-spec.github.io/pages/defgeneric.html</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="짚고-넘어가기-4"><a class="header" href="#짚고-넘어가기-4">짚고 넘어가기</a></h2>
+<ul>
+<li><code>defclass</code></li>
+<li><code>defmethod</code></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="리더매크로"><a class="header" href="#리더매크로">리더매크로</a></h1>
+<p>https://github.com/melisgl/named-readtables</p>
+<p>https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_12.html</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="심볼매크로"><a class="header" href="#심볼매크로">심볼매크로</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="loop"><a class="header" href="#loop">Loop</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="format"><a class="header" href="#format">Format</a></h1>
+<p>dotimes // for</p>
+<p>dolist // foreach</p>
+<p>(loop :for x :in '(1 2 3) :collect (* x 10))</p>
+<h2 id="for"><a class="header" href="#for">for:</a></h2>
+<ul>
+<li><a href="https://github.com/Shinmera/for/">https://github.com/Shinmera/for/</a></li>
+</ul>
+<h2 id="iter"><a class="header" href="#iter">iter:</a></h2>
+<ul>
+<li>iterate
+<ul>
+<li><a href="https://gitlab.common-lisp.net/iterate/iterate">https://gitlab.common-lisp.net/iterate/iterate</a></li>
+<li><a href="https://iterate.common-lisp.dev/doc/index.html">https://iterate.common-lisp.dev/doc/index.html</a></li>
+</ul>
+</li>
+<li>reiterate
+<ul>
+<li><a href="https://github.com/hu-dwim/hu.dwim.reiterate">https://github.com/hu-dwim/hu.dwim.reiterate</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="ref-10"><a class="header" href="#ref-10">Ref</a></h2>
+<ul>
+<li><a href="https://lispcookbook.github.io/cl-cookbook/iteration.html">https://lispcookbook.github.io/cl-cookbook/iteration.html</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="format-1"><a class="header" href="#format-1">Format</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="자투리"><a class="header" href="#자투리">자투리</a></h1>
 <h2 id="우주로"><a class="header" href="#우주로">우주로</a></h2>
 <p><a href="https://en.wikipedia.org/wiki/Deep_Space_1">DS1(Deep Space 1호)</a> 이온 추진을 사용한 최초의 NASA 우주선. DS1 우주선이 우주속에서 교착 상태에 빠져서 고장이 남.</p>
+<p>이온 엔진</p>
 <ul>
 <li>60 million miles는 (96,560,400 km) 지구에서 태양 거리의 65%쯤 되는 거리(지구에서 달 거리의 250배쯤 된다)
 <ul>
@@ -669,23 +1298,154 @@ CHAR-EQUAL 대소문자 구분 x</p>
 <li><a href="https://gdcvault.com/play/211/Adventures-in-Data-Compilation-and">GDC 2008 Adventures in Data Compilation and Scripting for UNCHARTED: DRAKE'S FORTUNE</a>
 <ul>
 <li><a href="https://www.naughtydog.com/blog/presentations_from_game_developers_conference_2008">https://www.naughtydog.com/blog/presentations_from_game_developers_conference_2008</a></li>
+<li>Dan Liebgold</li>
 </ul>
 </li>
 <li><a href="https://www.gdcvault.com/play/1730/State-Based-Scripting-in-UNCHARTED">GDC 2009 State-Based Scripting in Uncharted 2: Among Thieves</a>
 <ul>
 <li><a href="https://www.slideshare.net/slideshow/statebased-scripting-in-uncharted-2-among-thieves/7093984">slide</a></li>
+<li>Jason Q. Gregory</li>
 </ul>
 </li>
-<li><a href="https://www.youtube.com/watch?v=oSmqbnhHp1c">RacketCon 2013: Dan Liebgold - Racket on the Playstation 3? It's Not What you Think!</a></li>
+<li><a href="https://www.youtube.com/watch?v=oSmqbnhHp1c">RacketCon 2013: Dan Liebgold - Racket on the Playstation 3? It's Not What you Think!</a>
+<ul>
+<li>Dan Liebgold</li>
+</ul>
+</li>
 <li><a href="https://www.gdcvault.com/play/1020386/A-Context-Aware-Character-Dialog">GDC 2014 A Context-Aware Character Dialog System</a>
 <ul>
 <li><a href="https://gameenginebook.com/resources/Gregory_Jason_ContextAwareDialog.pdf">slide</a></li>
+<li>Jason Gregory</li>
+</ul>
+</li>
+<li><a href="https://www.youtube.com/watch?v=gpINOFQ32o0">HandmadeCon 2016 - Large-scale Systems Architecture</a>
+<ul>
+<li>Jason Gregory</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="quicklisp"><a class="header" href="#quicklisp">Quicklisp</a></h1>
+<pre><code class="language-lisp">;; REF: https://www.darkchestnut.com/2016/quicklisp-load-personal-projects-from-arbitrary-locations/
+
+(pushnew (truename "/projects/app/") ql:*local-project-directories* )
+(ql:register-local-projects)
+(ql:quickload :app)
+</code></pre>
+<p>deploy - https://github.com/Shinmera/deploy
+commandline parser
+clingon - https://github.com/dnaeon/clingon
+cl21 - https://github.com/cl21/cl21
+- https://lispcookbook.github.io/cl-cookbook/cl21.html</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="커먼리스프-역사"><a class="header" href="#커먼리스프-역사">커먼리스프 역사</a></h1>
+<h2 id="lisp-1-vs-lisp-2"><a class="header" href="#lisp-1-vs-lisp-2">Lisp 1 vs Lisp 2</a></h2>
+<div class="table-wrapper"><table><thead><tr><th></th><th>네임스페이스</th><th>언어</th></tr></thead><tbody>
+<tr><td>Lisp2</td><td>함수와 변수 분리</td><td>Common Lisp</td></tr>
+<tr><td>Lisp1</td><td>하나로</td><td>Clojure / Scheme</td></tr>
+</tbody></table>
+</div>
+<p>https://www.nhplace.com/kent/Papers/Technical-Issues.html</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="배포판implementation"><a class="header" href="#배포판implementation">배포판(implementation)</a></h1>
+<ul>
+<li><a href="https://www.sbcl.org/">SBCL(Steel Bank Common Lisp)</a></li>
+<li><a href="https://armedbear.common-lisp.dev/">ECL(Embeddable Common Lisp)</a></li>
+<li><a href="https://ecl.common-lisp.dev/">ABCL(Armed Bear Common Lisp)</a></li>
+<li><a href="https://ccl.clozure.com/">CCL(Clozure Common Lisp)</a></li>
+<li><a href="http://www.clisp.org/">CLISP</a></li>
+<li><a href="https://github.com/clasp-developers/clasp">CLASP</a>
+<ul>
+<li>Bringing Common Lisp and C++ Together</li>
+</ul>
+</li>
+<li><a href="https://franz.com/products/allegro-common-lisp/">Allegro Common Lisp by fanz</a></li>
+<li><a href="https://www.lispworks.com/products/lispworks.html">Lispworks</a></li>
+</ul>
+<h2 id="ref-11"><a class="header" href="#ref-11">Ref</a></h2>
+<ul>
+<li><a href="https://lisp-lang.org/wiki/article/implementations">https://lisp-lang.org/wiki/article/implementations</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="인물들"><a class="header" href="#인물들">인물들</a></h1>
+<ul>
+<li>
+<p><a href="museum/people/./john-mccarthy.html">John McCarthy</a></p>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Richard_P._Gabriel">Richard P. Gabriel</a></p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Lucid_Inc.">Lucid_Inc.</a></li>
+<li><a href="https://www.dreamsongs.com/Essays.html">blog</a>
+<ul>
+<li><a href="https://www.dreamsongs.com/WIB.html">Lisp: Good News, Bad News, How to Win Big</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://edicl.github.io/">Edi Weitz</a></p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="john-mccarthy"><a class="header" href="#john-mccarthy">John McCarthy</a></h1>
+<ul>
+<li>Lisp의 아버지 "존 매카시” (1927년 9월 4일 ~ 2011년 10월 24일)</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>1956년</td><td>다트머스 학회에서 처음으로 인공지능(Artificial Intelligence)이라는 용어를 창안</td></tr>
+<tr><td>1958년</td><td>Lisp 개발시작</td></tr>
+<tr><td>1960년</td><td>논문 "Recursive Functions of Symbolic Expressions and Their Computation by Machine, Part I"</td></tr>
+<tr><td>1971년</td><td>튜링상 수상. 인공지능에 대한 연구업적 인정</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="lisp-만들기"><a class="header" href="#lisp-만들기">Lisp 만들기</a></h1>
+<ul>
+<li><a href="https://www.buildyourownlisp.com/">Build Your Own Lisp</a>
+<ul>
+<li><a href="https://github.com/orangeduck/BuildYourOwnLisp">src</a></li>
+<li>C 언어로 구현. 매크로 구현 없음</li>
+</ul>
+</li>
+<li><a href="https://github.com/kanaka/mal">kanaka/mal</a>
+<ul>
+<li><a href="https://github.com/kanaka/mal/blob/master/process/guide.md">https://github.com/kanaka/mal/blob/master/process/guide.md</a></li>
+<li>가이드 문서 한장으로 테스트 풀어나가는 형식. 매크로 구현 있음</li>
+<li>여러 언어로 구현된 소스들이 있음.</li>
+</ul>
+</li>
+<li><a href="https://www.lwh.jp/lisp/">building-lisp</a>
+<ul>
+<li><a href="https://github.com/lwhjp/building-lisp/">src</a></li>
+<li>C 언어</li>
+</ul>
+</li>
+<li><a href="https://github.com/microsoft/schemy">microsoft/schemy</a>
+<ul>
+<li>A lightweight embeddable Scheme-like interpreter for configuration</li>
+<li>C#언어</li>
+</ul>
+</li>
+<li><a href="https://bernsteinbear.com/blog/lisp/">https://bernsteinbear.com/blog/lisp/</a>
+<ul>
+<li>C 언어</li>
+</ul>
+</li>
+<li><a href="https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/index.html">SICP (Structure and Interpretation of Computer Programs)</a>
+<ul>
+<li>by Harold Abelson and Gerald Jay Sussman with Julie Sussman
+<ul>
+<li><a href="https://www.youtube.com/playlist?list=PLE18841CABEA24090">MIT 6.001 Structure and Interpretation, 1986</a></li>
+<li><a href="https://ocw.mit.edu/courses/6-001-structure-and-interpretation-of-computer-programs-spring-2005/video_galleries/video-lectures/">https://ocw.mit.edu/courses/6-001-structure-and-interpretation-of-computer-programs-spring-2005/video_galleries/video-lectures/</a></li>
+<li><a href="https://wizardbook.wordpress.com/solutions-index/">https://wizardbook.wordpress.com/solutions-index/</a></li>
+</ul>
+</li>
+<li><a href="https://product.kyobobook.co.kr/detail/S000001033024">번역서) 컴퓨터 프로그램의 구조와 해석</a>
+<ul>
+<li>번역) 김재우,안윤호,김수정,김정민, 감수) 이광근</li>
+</ul>
+</li>
+<li><a href="https://github.com/lisp-korea/sicp">https://github.com/lisp-korea/sicp</a></li>
+<li><a href="https://github.com/lisp-korea/sicp2014">https://github.com/lisp-korea/sicp2014</a></li>
+</ul>
+</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="참고자료"><a class="header" href="#참고자료">참고자료</a></h1>
 <ul>
 <li><a href="https://lispkorea.github.io">https://lispkorea.github.io</a></li>
@@ -721,10 +1481,11 @@ CHAR-EQUAL 대소문자 구분 x</p>
 <ul>
 <li><a href="https://exercism.org/tracks/common-lisp">exercism: common-lisp</a></li>
 <li><a href="https://open.kattis.com/languages/lisp">kattis: common-lisp</a></li>
-</ul>
-<h2 id="강좌--무료-"><a class="header" href="#강좌--무료-">강좌 ( 무료 )</a></h2>
+<li><a href="https://help.acmicpc.net/language/info">Baekjoon Online Judge</a>
 <ul>
-<li>https://exercism.org/tracks/common-lisp/concepts</li>
+<li><a href="https://www.call-cc.org/">CHICKEN Scheme</a></li>
+</ul>
+</li>
 </ul>
 <h2 id="강좌--유료-"><a class="header" href="#강좌--유료-">강좌 ( 유료 )</a></h2>
 <ul>
@@ -735,13 +1496,24 @@ CHAR-EQUAL 대소문자 구분 x</p>
 </ul>
 </li>
 </ul>
-<h2 id="ref-5"><a class="header" href="#ref-5">Ref</a></h2>
+<h2 id="ref-12"><a class="header" href="#ref-12">Ref</a></h2>
 <ul>
 <li><a href="https://stevelosh.com/blog/2018/08/a-road-to-common-lisp/">https://stevelosh.com/blog/2018/08/a-road-to-common-lisp/</a></li>
+<li><a href="https://simondobson.org/development/annotated-lisp-bibliography/">https://simondobson.org/development/annotated-lisp-bibliography/</a></li>
+<li><a href="https://courses.cs.northwestern.edu/325/readings/readings.html">https://courses.cs.northwestern.edu/325/readings/readings.html</a></li>
 <li><a href="https://corecursive.com/?search=lisp">https://corecursive.com/?search=lisp</a></li>
 <li><a href="https://european-lisp-symposium.org/">https://european-lisp-symposium.org/</a></li>
-<li>https://qiita.com/tags/commonlisp</li>
-<li>https://qiita.com/tags/lisp</li>
+<li>qiita
+<ul>
+<li><a href="https://qiita.com/tags/lisp">tags/lisp</a></li>
+<li><a href="https://qiita.com/tags/commonlisp">tags/commonlisp</a></li>
+</ul>
+</li>
+<li><a href="https://hn.algolia.com/?q=lisp">Hacker News - ?q=lisp</a>
+<ul>
+<li><a href="https://news.hada.io/search?q=lisp">Geek News - ?q=lisp</a></li>
+</ul>
+</li>
 </ul>
 
                     </main>
@@ -784,6 +1556,7 @@ CHAR-EQUAL 대소문자 구분 x</p>
             window.setTimeout(window.print, 100);
         });
         </script>
+
 
     </div>
     </body>

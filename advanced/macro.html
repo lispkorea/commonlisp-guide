@@ -35,6 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -91,10 +92,13 @@
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
@@ -142,7 +146,7 @@
                         <a href="https://github.com/lispkorea/commonlisp-guide" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/lispkorea/commonlisp-guide/edit/main/src/advanced/macro.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/lispkorea/commonlisp-guide/edit/main/src/advanced/macro.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -151,7 +155,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -172,6 +181,78 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="매크로"><a class="header" href="#매크로">매크로</a></h1>
+<div class="table-wrapper"><table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>`</td><td>Backquote</td></tr>
+<tr><td>,</td><td>Comma</td></tr>
+<tr><td>,@</td><td>Comma-splice</td></tr>
+<tr><td>',</td><td>Quote-comma</td></tr>
+</tbody></table>
+</div>
+<p>quote
+defmacro</p>
+<p>매크로 확장
+M-x slime-macroexpand-all (C-c M-m)</p>
+<p>매크로를 수정하게 되면 매크로를 쓴 함수 역시 다시 평가해야 하는데
+M-x slime-who-macroexpands 로 찾고 C-c C-k로 컴파일</p>
+<p>&amp;body
+(gensym)
+variable capture</p>
+<ul>
+<li>compile function
+<ul>
+<li>read time - reader macros</li>
+<li>macro expansion time - macros</li>
+<li>compilation time</li>
+<li>run time - function</li>
+</ul>
+</li>
+</ul>
+<p>alexandria:with-gensyms
+https://alexandria.common-lisp.dev/
+https://gitlab.common-lisp.net/alexandria/alexandria</p>
+<p>================================================================================================================================================
+define-symbol-macro
+symbol-macrolet</p>
+<p>sharpsign(#)  - https://www.lispworks.com/documentation/HyperSpec/Body/02_dh.htm</p>
+<p>#. read-time evaluation</p>
+<p>(defun func1 ()
+:my-func1)</p>
+<p>(defun #.(func1) ()
+:kkk)</p>
+<p>;;&gt; (:func1)
+;;=&gt; :FUNC10
+;;&gt; (:my-func1)
+;;=&gt; :KKK</p>
+<p>(asdf:defsystem "mysystem"
+:decription "short description"
+:long-description
+#.(uiop:read-file-string (subpathname <em>load-pathname</em> "README.md")))</p>
+<ul>
+<li>
+<p>sly-macrostep</p>
+<ul>
+<li><a href="https://github.com/joaotavora/sly-macrostep">https://github.com/joaotavora/sly-macrostep</a></li>
+</ul>
+</li>
+<li>
+<p><a href="https://cl-community-spec.github.io/pages/gensym.html">https://cl-community-spec.github.io/pages/gensym.html</a></p>
+</li>
+<li>
+<p><a href="https://cl-community-spec.github.io/pages/quote.html">https://cl-community-spec.github.io/pages/quote.html</a></p>
+</li>
+<li>
+<p><a href="https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_03.html">https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_03.html</a></p>
+</li>
+<li>
+<p><a href="https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_08.html">https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_08.html</a></p>
+</li>
+<li>
+<p><code>gensym</code></p>
+</li>
+<li>
+<p><code>quote</code></p>
+</li>
+</ul>
 
                     </main>
 
@@ -219,6 +300,7 @@
         <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
+
 
 
     </div>

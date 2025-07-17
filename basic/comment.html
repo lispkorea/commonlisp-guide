@@ -35,6 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -91,10 +92,13 @@
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
@@ -142,7 +146,7 @@
                         <a href="https://github.com/lispkorea/commonlisp-guide" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/lispkorea/commonlisp-guide/edit/main/src/basic/comment.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/lispkorea/commonlisp-guide/edit/main/src/basic/comment.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -151,7 +155,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -172,7 +181,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="주석"><a class="header" href="#주석">주석</a></h1>
-<p>주석은 세미콜론으로 시작합니다( ; )</p>
+<h2 id="한-줄-주석"><a class="header" href="#한-줄-주석">한 줄 주석</a></h2>
+<p>한 줄 주석은 세미콜론( ; )으로 시작합니다</p>
+<h3 id="예"><a class="header" href="#예">예)</a></h3>
 <div class="table-wrapper"><table><thead><tr><th>세미콜론 갯수</th><th>쓰임세</th></tr></thead><tbody>
 <tr><td>4개</td><td>파일 단위로는</td></tr>
 <tr><td>3개</td><td>구획(section) 설명으로는</td></tr>
@@ -180,15 +191,31 @@
 <tr><td>1개</td><td>한개의 라인에 대해서</td></tr>
 </tbody></table>
 </div>
-<h2 id="예"><a class="header" href="#예">예</a></h2>
-<pre><code>;;;; hello.lisp
+<pre><code class="language-lisp">;;;; hello.lisp
 
-
-;;; Welcome, Lisp World
+;;; Welcome
+;;; Lisp World
 
 (defun hello (a b)
   ;; a와 b를 더하고
   (+ a b))          ; 반환
+</code></pre>
+<h2 id="여러-줄-주석"><a class="header" href="#여러-줄-주석">여러 줄 주석</a></h2>
+<ul>
+<li>여러줄 주석 <code>#|</code>으로 시작해서 <code>|#</code> 로 끝납니다.</li>
+<li>코딩 스타일로 <code>#| |#</code>로 감싸는 여러 줄 주석보다는 세미콜론 <code>;</code>로 처리하는 주석을 더 선호하기도 함.
+<ul>
+<li><a href="https://www.cliki.net/Riastradh%27s%20Lisp%20Style%20Rules%20%5Bfor%20Common%20Lisp%5D">ref</a></li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-lisp">#|
+  여러 줄 주석
+
+  #|
+     이런것 도 가능
+  |#
+|#
 </code></pre>
 
                     </main>
@@ -237,6 +264,7 @@
         <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
+
 
 
     </div>

@@ -35,6 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -91,10 +92,13 @@
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
@@ -142,7 +146,7 @@
                         <a href="https://github.com/lispkorea/commonlisp-guide" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/lispkorea/commonlisp-guide/edit/main/src/reference/reference.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/lispkorea/commonlisp-guide/edit/main/src/reference/reference.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -151,7 +155,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -206,10 +215,11 @@
 <ul>
 <li><a href="https://exercism.org/tracks/common-lisp">exercism: common-lisp</a></li>
 <li><a href="https://open.kattis.com/languages/lisp">kattis: common-lisp</a></li>
-</ul>
-<h2 id="강좌--무료-"><a class="header" href="#강좌--무료-">강좌 ( 무료 )</a></h2>
+<li><a href="https://help.acmicpc.net/language/info">Baekjoon Online Judge</a>
 <ul>
-<li>https://exercism.org/tracks/common-lisp/concepts</li>
+<li><a href="https://www.call-cc.org/">CHICKEN Scheme</a></li>
+</ul>
+</li>
 </ul>
 <h2 id="강좌--유료-"><a class="header" href="#강좌--유료-">강좌 ( 유료 )</a></h2>
 <ul>
@@ -223,17 +233,28 @@
 <h2 id="ref"><a class="header" href="#ref">Ref</a></h2>
 <ul>
 <li><a href="https://stevelosh.com/blog/2018/08/a-road-to-common-lisp/">https://stevelosh.com/blog/2018/08/a-road-to-common-lisp/</a></li>
+<li><a href="https://simondobson.org/development/annotated-lisp-bibliography/">https://simondobson.org/development/annotated-lisp-bibliography/</a></li>
+<li><a href="https://courses.cs.northwestern.edu/325/readings/readings.html">https://courses.cs.northwestern.edu/325/readings/readings.html</a></li>
 <li><a href="https://corecursive.com/?search=lisp">https://corecursive.com/?search=lisp</a></li>
 <li><a href="https://european-lisp-symposium.org/">https://european-lisp-symposium.org/</a></li>
-<li>https://qiita.com/tags/commonlisp</li>
-<li>https://qiita.com/tags/lisp</li>
+<li>qiita
+<ul>
+<li><a href="https://qiita.com/tags/lisp">tags/lisp</a></li>
+<li><a href="https://qiita.com/tags/commonlisp">tags/commonlisp</a></li>
+</ul>
+</li>
+<li><a href="https://hn.algolia.com/?q=lisp">Hacker News - ?q=lisp</a>
+<ul>
+<li><a href="https://news.hada.io/search?q=lisp">Geek News - ?q=lisp</a></li>
+</ul>
+</li>
 </ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../library/quicklisp.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../making/writing-lisp.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
@@ -244,7 +265,7 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../library/quicklisp.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../making/writing-lisp.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
@@ -269,6 +290,7 @@
         <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
+
 
 
     </div>

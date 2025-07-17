@@ -35,6 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -91,10 +92,13 @@
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
@@ -142,7 +146,7 @@
                         <a href="https://github.com/lispkorea/commonlisp-guide" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/lispkorea/commonlisp-guide/edit/main/src/snippets/snippets.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/lispkorea/commonlisp-guide/edit/main/src/snippets/snippets.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -151,7 +155,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -174,6 +183,7 @@
                         <h1 id="자투리"><a class="header" href="#자투리">자투리</a></h1>
 <h2 id="우주로"><a class="header" href="#우주로">우주로</a></h2>
 <p><a href="https://en.wikipedia.org/wiki/Deep_Space_1">DS1(Deep Space 1호)</a> 이온 추진을 사용한 최초의 NASA 우주선. DS1 우주선이 우주속에서 교착 상태에 빠져서 고장이 남.</p>
+<p>이온 엔진</p>
 <ul>
 <li>60 million miles는 (96,560,400 km) 지구에서 태양 거리의 65%쯤 되는 거리(지구에서 달 거리의 250배쯤 된다)
 <ul>
@@ -214,17 +224,29 @@
 <li><a href="https://gdcvault.com/play/211/Adventures-in-Data-Compilation-and">GDC 2008 Adventures in Data Compilation and Scripting for UNCHARTED: DRAKE'S FORTUNE</a>
 <ul>
 <li><a href="https://www.naughtydog.com/blog/presentations_from_game_developers_conference_2008">https://www.naughtydog.com/blog/presentations_from_game_developers_conference_2008</a></li>
+<li>Dan Liebgold</li>
 </ul>
 </li>
 <li><a href="https://www.gdcvault.com/play/1730/State-Based-Scripting-in-UNCHARTED">GDC 2009 State-Based Scripting in Uncharted 2: Among Thieves</a>
 <ul>
 <li><a href="https://www.slideshare.net/slideshow/statebased-scripting-in-uncharted-2-among-thieves/7093984">slide</a></li>
+<li>Jason Q. Gregory</li>
 </ul>
 </li>
-<li><a href="https://www.youtube.com/watch?v=oSmqbnhHp1c">RacketCon 2013: Dan Liebgold - Racket on the Playstation 3? It's Not What you Think!</a></li>
+<li><a href="https://www.youtube.com/watch?v=oSmqbnhHp1c">RacketCon 2013: Dan Liebgold - Racket on the Playstation 3? It's Not What you Think!</a>
+<ul>
+<li>Dan Liebgold</li>
+</ul>
+</li>
 <li><a href="https://www.gdcvault.com/play/1020386/A-Context-Aware-Character-Dialog">GDC 2014 A Context-Aware Character Dialog System</a>
 <ul>
 <li><a href="https://gameenginebook.com/resources/Gregory_Jason_ContextAwareDialog.pdf">slide</a></li>
+<li>Jason Gregory</li>
+</ul>
+</li>
+<li><a href="https://www.youtube.com/watch?v=gpINOFQ32o0">HandmadeCon 2016 - Large-scale Systems Architecture</a>
+<ul>
+<li>Jason Gregory</li>
 </ul>
 </li>
 </ul>
@@ -277,6 +299,7 @@
         <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
+
 
 
     </div>

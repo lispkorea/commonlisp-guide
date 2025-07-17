@@ -35,6 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -91,10 +92,13 @@
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
@@ -142,7 +146,7 @@
                         <a href="https://github.com/lispkorea/commonlisp-guide" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/lispkorea/commonlisp-guide/edit/main/src/basic/atom.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/lispkorea/commonlisp-guide/edit/main/src/basic/atom.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -151,7 +155,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -172,15 +181,86 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="아톰"><a class="header" href="#아톰">아톰</a></h1>
-<pre><code class="language-lisp">(atom 1)
-;;=&gt;  T
-
-(atom 'atom)
-;;=&gt;  T
-
-(atom nil)
-;;=&gt;  T
+<ul>
+<li>Lisp에서 모든 데이터는 콘스 셀(cons cell) 혹은 아톰(atom) 중 하나.</li>
+</ul>
+<h2 id="사전-지식"><a class="header" href="#사전-지식">사전 지식</a></h2>
+<h3 id="표기법notation"><a class="header" href="#표기법notation">표기법(notation)</a></h3>
+<ul>
+<li>표기법
+<ul>
+<li>전위 표기법(prefix notation) : + 1 2</li>
+<li>중위 표기법(infix notation) : 1 + 2</li>
+<li>후위 표기법(postfix notation) : 1 2 +</li>
+</ul>
+</li>
+<li>자동완성
+<ul>
+<li>전위 표기법 특성 상 Method Completion / Property Completion 이 안됨</li>
+<li>심볼 자동완성에 의존</li>
+</ul>
+</li>
+</ul>
+<p>code is data —  Homoiconicity</p>
+<h3 id="참과-거짓"><a class="header" href="#참과-거짓">참과 거짓</a></h3>
+<p>참 : T
+거짓 : NIL</p>
+<h2 id="아톰이-아닌-것"><a class="header" href="#아톰이-아닌-것">아톰이 아닌 것</a></h2>
+<ul>
+<li>Cons Cell인 것
+<ul>
+<li>Cons Cell이 결합된 리스트(list) 역시 아톰이 아니다.</li>
+</ul>
+</li>
+<li>Cons Cell (콘스 셀)
+<ul>
+<li>두 개의 값을 담는 한 쌍 (first . second)</li>
+</ul>
+</li>
+<li>List (리스트)
+<ul>
+<li>Cons Cell을 이어 붙인 연결 구조</li>
+</ul>
+</li>
+</ul>
+<p>📋 Cons는 아톰이 아니다</p>
+<pre><code class="language-lisp">(atom (cons 1 2))   ; =&gt; NIL
+(atom '(1 . 2))     ; =&gt; NIL
 </code></pre>
+<p>📋 리스트는 아톰이 아니다</p>
+<pre><code class="language-lisp">(atom (list 1 2 3)) ; =&gt; NIL
+(atom '(1 2 3))     ; =&gt; NIL
+</code></pre>
+<h2 id="아톰인-것"><a class="header" href="#아톰인-것">아톰인 것</a></h2>
+<p>🔢 숫자는 아톰</p>
+<pre><code class="language-lisp">(atom 42)           ; =&gt; T
+(atom -1.5)         ; =&gt; T
+</code></pre>
+<p>🔤 문자열, 문자도 아톰</p>
+<pre><code class="language-lisp">(atom "hello")      ; =&gt; T
+(atom #\A)          ; =&gt; T
+</code></pre>
+<p>📌 키워드도 아톰</p>
+<pre><code class="language-lisp">(atom :ok)          ; =&gt; T
+</code></pre>
+<p>🧠 심볼도 아톰</p>
+<pre><code class="language-lisp">(atom 'x)           ; =&gt; T
+(atom 'atom)        ; =&gt; T
+</code></pre>
+<p>🧪 T / NIL 도 아톰이다</p>
+<p>'()은 NIL과 동의어(synonym)</p>
+<pre><code class="language-lisp">(atom T)          ; =&gt; T
+(atom NIL)          ; =&gt; T
+(atom '())          ; =&gt; T
+</code></pre>
+<p>📦 함수 객체도 아톰이다</p>
+<pre><code class="language-lisp">(atom #'helloworld) ; =&gt; T
+</code></pre>
+<h2 id="짚고-넘어가기"><a class="header" href="#짚고-넘어가기">짚고 넘어가기</a></h2>
+<ul>
+<li><code>atom</code></li>
+</ul>
+<p>https://lispkorea.github.io/successful-lisp-kr/ch03/lesson_01.html</p>
 
                     </main>
 
@@ -228,6 +308,7 @@
         <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
+
 
 
     </div>
